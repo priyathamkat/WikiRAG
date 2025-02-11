@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "WikiRAG"
+name = "wiki_rag"
 version = "0.1.0"
 description = "LLM responses powered by Wikipedia (fully local)"
 authors = ["Priyatham Kattakinda <priyathamkat@gmail.com>"]
@@ -8,6 +8,7 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.13"
 fastapi = {extras = ["standard"], version = "^0.115.8"}
+uvicorn = {extras = ["standard"], version = "^0.34.0"}
 
 
 [tool.poetry.group.dev.dependencies]
