@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+from typing import Literal
 
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -22,6 +23,7 @@ app = FastAPI(lifespan=lifespan)
 
 class EmbeddingsRequest(BaseModel):
     texts: list[str]
+    task_type: Literal["query", "passage"]
 
 
 class Embeddings(BaseModel):
@@ -30,5 +32,11 @@ class Embeddings(BaseModel):
 
 @app.post("/embeddings/", response_model=Embeddings)
 async def get_embeddings(request: EmbeddingsRequest) -> Embeddings:
-    embeddings = embedding_model[0].encode(request.texts, task="text-matching")
+    task = None
+    match request.task_type:
+        case "query":
+            task = "retrieval.query"
+        case "passage":
+            task = "retrieval.passage"
+    embeddings = embedding_model[0].encode(request.texts, task=task)
     return Embeddings(embeddings=embeddings.tolist())
