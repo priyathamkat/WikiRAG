@@ -7,3 +7,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    volumes:
+      - huggingface_cache:/cache/huggingface
+    environment:
+      - HF_HOME=/cache/huggingface
+
+volumes:
+    huggingface_cache:
